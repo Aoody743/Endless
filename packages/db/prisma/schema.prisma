@@ -1,0 +1,188 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  EDITOR
+}
+
+enum ContentType {
+  POST
+  PAGE
+  DOC
+  PROJECT
+}
+
+enum ContentStatus {
+  DRAFT
+  SCHEDULED
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LayoutMode {
+  MARKDOWN
+  SECTIONS
+  HYBRID
+}
+
+enum TemplateKey {
+  HOME
+  ABOUT
+  LAB
+  LANDING
+  DEFAULT
+}
+
+enum MediaProvider {
+  LOCAL
+  S3
+  R2
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  role         UserRole      @default(OWNER)
+  contentItems ContentItem[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model ContentItem {
+  id             String            @id @default(cuid())
+  type           ContentType
+  status         ContentStatus     @default(DRAFT)
+  title          String
+  titleEn        String?
+  slug           String            @unique
+  summary        String
+  summaryEn      String?
+  bodyMarkdown   String            @db.Text
+  bodyMarkdownEn String?           @db.Text
+  bodyHtml       String?           @db.Text
+  layoutMode     LayoutMode        @default(MARKDOWN)
+  templateKey    TemplateKey       @default(DEFAULT)
+  seoTitle       String?
+  seoTitleEn     String?
+  seoDescription String?
+  seoDescriptionEn String?
+  publishedAt    DateTime?
+  scheduledAt    DateTime?
+  readingMinutes Int               @default(1)
+  coverMediaId   String?
+  coverMedia     MediaAsset?       @relation("CoverMedia", fields: [coverMediaId], references: [id])
+  authorId       String?
+  author         User?             @relation(fields: [authorId], references: [id])
+  tags           Tag[]             @relation("ContentTags")
+  categories     Category[]        @relation("ContentCategories")
+  revisions      ContentRevision[]
+  pageSections   PageSection[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([type, status, publishedAt])
+  @@index([slug])
+  @@index([templateKey, status])
+}
+
+model ContentRevision {
+  id            String      @id @default(cuid())
+  contentItemId String
+  contentItem   ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  title         String
+  titleEn       String?
+  summary       String
+  summaryEn     String?
+  bodyMarkdown  String      @db.Text
+  bodyMarkdownEn String?    @db.Text
+  reason        String?
+  createdAt     DateTime    @default(now())
+
+  @@index([contentItemId, createdAt])
+}
+
+model Tag {
+  id           String        @id @default(cuid())
+  name         String
+  nameEn       String?
+  slug         String        @unique
+  description  String?
+  descriptionEn String?
+  contentItems ContentItem[] @relation("ContentTags")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Category {
+  id           String        @id @default(cuid())
+  name         String
+  nameEn       String?
+  slug         String        @unique
+  description  String?
+  descriptionEn String?
+  contentItems ContentItem[] @relation("ContentCategories")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model MediaAsset {
+  id           String        @id @default(cuid())
+  provider     MediaProvider @default(LOCAL)
+  key          String        @unique
+  url          String
+  mimeType     String
+  width        Int?
+  height       Int?
+  alt          String
+  blurDataUrl  String?
+  coveredItems ContentItem[] @relation("CoverMedia")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model PageSection {
+  id            String      @id @default(cuid())
+  contentItemId String
+  contentItem   ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  type          String
+  variant       String
+  order         Int         @default(0)
+  columnSpan    String
+  enabled       Boolean     @default(true)
+  props         Json
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([contentItemId, order])
+}
+
+model BentoBlock {
+  id        String   @id @default(cuid())
+  type      String
+  title     String
+  subtitle  String?
+  href      String?
+  priority  Int      @default(0)
+  size      String
+  enabled   Boolean  @default(true)
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([enabled, priority])
+}
+
+model SiteSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}

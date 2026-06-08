@@ -1,0 +1,19 @@
+{
+  "name": "endless-cms",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.24.0",
+  "scripts": {
+    "dev": "pnpm --filter @endless/web dev",
+    "build": "pnpm --filter @endless/web build",
+    "start": "pnpm --filter @endless/web start",
+    "lint": "pnpm --filter @endless/web lint",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @endless/db db:generate",
+    "db:push": "pnpm --filter @endless/db db:push",
+    "db:seed": "pnpm --filter @endless/db db:seed"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

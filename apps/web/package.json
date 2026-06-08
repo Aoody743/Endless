@@ -1,0 +1,41 @@
+{
+  "name": "@endless/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@endless/ai": "workspace:*",
+    "@endless/content": "workspace:*",
+    "@endless/db": "workspace:*",
+    "@endless/design": "workspace:*",
+    "@prisma/client": "6.19.0",
+    "framer-motion": "^12.23.24",
+    "katex": "^0.16.25",
+    "lucide-react": "^0.468.0",
+    "next": "14.2.25",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-markdown": "^10.1.0",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.4.22",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.25",
+    "postcss": "^8.5.6",
+    "tailwindcss": "3.4.17",
+    "typescript": "^5.9.3"
+  }
+}

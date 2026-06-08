@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: endless-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: endless
+      POSTGRES_USER: endless
+      POSTGRES_PASSWORD: endless
+    ports:
+      - "5432:5432"
+    volumes:
+      - endless-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  endless-postgres-data:

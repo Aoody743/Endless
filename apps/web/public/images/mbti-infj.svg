@@ -1,0 +1,11 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="32" fill="#EFEDE8"/>
+  <rect x="48" y="48" width="1104" height="624" rx="24" fill="#E5E3DD"/>
+  <g opacity="0.9">
+    <circle cx="310" cy="260" r="120" fill="#D8D4CD"/>
+    <rect x="430" y="180" width="450" height="220" rx="20" fill="#D2CEC6"/>
+    <rect x="430" y="430" width="300" height="110" rx="16" fill="#C6C0B6"/>
+  </g>
+  <text x="95" y="575" fill="#2E2722" font-family="Noto Serif SC, serif" font-size="180" font-weight="700">INFJ</text>
+  <text x="670" y="575" fill="#5A7C63" font-family="Noto Serif SC, serif" font-size="92" font-weight="600">Advocate</text>
+</svg>
