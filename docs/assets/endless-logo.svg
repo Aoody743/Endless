@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 260" role="img" aria-labelledby="title desc">
+  <title id="title">Endless</title>
+  <desc id="desc">Endless personal publishing system logo.</desc>
+  <rect width="920" height="260" rx="44" fill="#f4efe8"/>
+  <rect x="42" y="42" width="176" height="176" rx="44" fill="#171310"/>
+  <path d="M88 84h84v25h-54v22h49v24h-49v23h56v25H88V84Z" fill="#f4efe8"/>
+  <path d="M254 66h70c53 0 88 33 88 64s-35 64-88 64h-70v-23h68c35 0 59-19 59-41s-24-41-59-41h-68V66Z" fill="#171310" opacity=".12"/>
+  <path d="M278 182V78h66c48 0 80 25 80 52s-32 52-80 52h-66Zm29-25h37c30 0 50-12 50-27s-20-27-50-27h-37v54Z" fill="#171310"/>
+  <path d="M466 182V78h83v24h-55v16h50v23h-50v17h57v24h-85Z" fill="#171310"/>
+  <path d="M583 182V78h29l54 58V78h28v104h-26l-57-62v62h-28Z" fill="#171310"/>
+  <path d="M733 182V78h29v79h55v25h-84Z" fill="#171310"/>
+  <path d="M832 182V78h29v104h-29Z" fill="#171310"/>
+  <path d="M278 215h583" stroke="#171310" stroke-width="8" stroke-linecap="round" opacity=".14"/>
+</svg>

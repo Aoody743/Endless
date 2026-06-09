@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="${1:-$(date +%Y%m%d%H%M)}"
+VERSION="${1:-$(node -p "require('./package.json').version")}"
 OUT_DIR="dist"
 OUT_FILE="$OUT_DIR/endless-$VERSION.zip"
 

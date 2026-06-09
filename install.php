@@ -255,13 +255,45 @@ $checks = [
       padding: 48px 0 72px;
     }
     header {
-      display: grid;
-      gap: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
       margin-bottom: 28px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      min-width: 0;
+    }
+    .brand-mark {
+      display: grid;
+      width: 72px;
+      height: 72px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 20px;
+      background: var(--text);
+      color: var(--bg);
+    }
+    .brand-mark svg { width: 42px; height: 42px; }
+    .brand-copy {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+    .version-pill {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: .82rem;
+      white-space: nowrap;
     }
     h1 {
       margin: 0;
-      font-size: clamp(2.25rem, 8vw, 5.5rem);
+      font-size: clamp(2.35rem, 8vw, 4.85rem);
       line-height: .92;
       letter-spacing: 0;
     }
@@ -363,6 +395,7 @@ $checks = [
     }
     .full { grid-column: 1 / -1; }
     @media (max-width: 860px) {
+      header { align-items: flex-start; flex-direction: column; }
       .layout, .fields, .toggles { grid-template-columns: 1fr; }
       main { padding-top: 28px; }
     }
@@ -371,9 +404,19 @@ $checks = [
 <body>
 <main>
   <header>
-    <p>Endless CMS</p>
-    <h1>Installer</h1>
-    <p>上传 zip 后打开本页，填写 PostgreSQL 与 Studio 信息，即可完成环境文件、数据库初始化、构建和 PM2 启动。</p>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M28 28h38v8H37v12h26v8H37v12h29v8H28V28Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="brand-copy">
+        <p>Endless CMS</p>
+        <h1>Install Endless</h1>
+        <p>填写数据库和后台账户，即可初始化内容、构建应用并启动服务。</p>
+      </div>
+    </div>
+    <div class="version-pill">Version 1.0</div>
   </header>
 
   <?php foreach ($messages as $message): ?>
