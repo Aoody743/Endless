@@ -1,46 +1,13 @@
-# Deploying Endless CMS on BaoTa
+# Deployment
 
-Target domain: `endless.aoodyconcor.de`
+Endless supports two production deployment paths:
 
-The project is shaped so BaoTa's Node.js project manager can recognize it from the root `package.json`, while PM2 can also run it through `ecosystem.config.cjs`.
+- **Command-line deployment** for VPS, BaoTa, PM2, Docker PostgreSQL, or any Linux server with Node.js.
+- **PHP installer deployment** for panel-style hosting: upload the release zip, open `install.php`, fill in database and Studio credentials, then let the installer write `.env`, initialize Prisma, build, and start PM2.
 
-## Production Build
+Read the full guides here:
 
-```bash
-pnpm install --frozen-lockfile
-pnpm db:generate
-pnpm build
-```
+- English: [README.md](./README.md)
+- 中文: [README.zh-CN.md](./README.zh-CN.md)
 
-The Next.js app uses standalone output, so the production entrypoint is:
-
-```bash
-node apps/web/.next/standalone/apps/web/server.js
-```
-
-## BaoTa / PM2
-
-- Project root: `/www/wwwroot/endless.aoodyconcor.de`
-- Start command: `node apps/web/.next/standalone/apps/web/server.js`
-- Port: `3000`
-- Reverse proxy target: `http://127.0.0.1:3000`
-- PM2 config: `ecosystem.config.cjs`
-
-## Environment
-
-Copy `.env.example` to `.env` and set:
-
-```bash
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/endless?schema=public"
-NEXT_PUBLIC_SITE_URL="https://endless.aoodyconcor.de"
-AI_CREDENTIALS_SECRET="change-me-ai-secret"
-```
-
-After PostgreSQL is reachable:
-
-```bash
-pnpm db:push
-pnpm db:seed
-```
-
-Use BaoTa's website SSL panel to request Let's Encrypt for `endless.aoodyconcor.de` after DNS and reverse proxy are active.
+For BaoTa/Nginx, run Endless on a Node port such as `3000`, then reverse proxy the domain to `http://127.0.0.1:3000`.

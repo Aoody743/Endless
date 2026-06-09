@@ -4,9 +4,12 @@ node_modules
 dist
 build
 coverage
+output/
+.tmp-sketch/
 .env
 .env.local
 .env.*.local
+.endless-installed
 *.tsbuildinfo
 .DS_Store
 prisma/dev.db

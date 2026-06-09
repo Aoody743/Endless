@@ -106,12 +106,12 @@ export interface StudioMediaAssetRecord {
 }
 
 export interface StudioSiteSettingsInput {
-  name: string;
-  title: string;
-  description: string;
-  url: string;
-  author: string;
-  language: string;
+  name?: string;
+  title?: string;
+  description?: string;
+  url?: string;
+  author?: string;
+  language?: string;
   studio?: Partial<StudioConfigRecord>;
   ai?: {
     provider: "openai-compatible";
@@ -135,7 +135,7 @@ interface StoredAIConfig {
 }
 
 function hasDatabase() {
-  return Boolean(process.env.DATABASE_URL);
+  return process.env.ENDLESS_DISABLE_DATABASE !== "1" && Boolean(process.env.DATABASE_URL?.trim());
 }
 
 function createSectionId() {
@@ -1823,22 +1823,23 @@ export async function saveSiteSettings(input: StudioSiteSettingsInput): Promise<
     throw new Error("Studio requires DATABASE_URL.");
   }
 
-  let normalizedUrl = getSite().url;
-  if (input.url.trim()) {
+  const currentSite = await resolveSite();
+  let normalizedUrl = currentSite.url;
+  if (input.url?.trim()) {
     try {
       normalizedUrl = new URL(input.url.trim()).toString().replace(/\/$/, "");
     } catch {
-      normalizedUrl = getSite().url;
+      normalizedUrl = currentSite.url;
     }
   }
 
   const nextSite = mergeSiteRecord({
-    name: input.name.trim() || getSite().name,
-    title: input.title.trim() || getSite().title,
-    description: input.description.trim() || getSite().description,
+    name: input.name?.trim() || currentSite.name,
+    title: input.title?.trim() || currentSite.title,
+    description: input.description?.trim() || currentSite.description,
     url: normalizedUrl,
-    author: input.author.trim() || getSite().author,
-    language: input.language.trim() || getSite().language
+    author: input.author?.trim() || currentSite.author,
+    language: input.language?.trim() || currentSite.language
   });
 
   await prisma.siteSetting.upsert({
@@ -1941,7 +1942,7 @@ export async function saveSiteSettings(input: StudioSiteSettingsInput): Promise<
     });
   }
 
-  for (const path of ["/", "/blog", "/lab", "/about", "/rss.xml", "/sitemap.xml", "/robots.txt", "/search"]) {
+  for (const path of ["/", "/blog", "/lab", "/about", "/friends", "/thoughts", "/links", "/photos", "/resume", "/comments", "/rss.xml", "/sitemap.xml", "/robots.txt", "/search"]) {
     revalidatePath(path);
   }
 
