@@ -99,7 +99,7 @@ function default_site_url(): string
 
 function installer_locked(string $lockPath): bool
 {
-    return is_file($lockPath) && ($_GET['unlock'] ?? '') !== '1';
+    return is_file($lockPath);
 }
 
 if (empty($_SESSION['endless_installer_token'])) {
