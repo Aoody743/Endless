@@ -27,6 +27,9 @@ STUDIO_SESSION_SECRET="use-another-long-random-secret"
 git clone https://github.com/AndyXeCM/Endless.git
 cd Endless
 cp .env.example .env
+# Edit .env before deploying. Set a strong STUDIO_OWNER_PASSWORD and
+# STUDIO_SESSION_SECRET (at least 32 random characters), plus your database,
+# site URL, and AI credential values.
 APP_NAME=endless-cms PORT=3000 ./scripts/deploy.sh
 ```
 
