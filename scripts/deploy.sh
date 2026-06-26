@@ -14,10 +14,17 @@ fi
 if [ ! -f .env ]; then
   if [ -f .env.example ]; then
     cp .env.example .env
-    echo "Created .env from .env.example. Edit it before running this script again."
+    echo "Created .env from .env.example. Set STUDIO_OWNER_PASSWORD and edit other production settings before running this script again."
     exit 1
   fi
   echo ".env is missing."
+  exit 1
+fi
+
+studio_owner_password="$(awk -F= '/^[[:space:]]*STUDIO_OWNER_PASSWORD[[:space:]]*=/ { value=$0; sub(/^[^=]*=/, "", value); gsub(/^[[:space:]]+|[[:space:]]+$/, "", value); gsub(/^"|"$/, "", value); gsub(/^'"'"'|'"'"'$/, "", value); print value; exit }' .env)"
+
+if [ -z "$studio_owner_password" ]; then
+  echo "STUDIO_OWNER_PASSWORD must be set in .env before deploying. A blank value disables Studio authentication."
   exit 1
 fi
 

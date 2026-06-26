@@ -60,6 +60,8 @@ Fill in PostgreSQL and Studio credentials. The installer writes `.env`, initiali
 git clone https://github.com/AndyXeCM/Endless.git
 cd Endless
 cp .env.example .env
+# Edit .env before deploying: set DATABASE_URL and a strong, non-empty STUDIO_OWNER_PASSWORD.
+${EDITOR:-nano} .env
 APP_NAME=endless-cms PORT=3000 ./scripts/deploy.sh
 ```
 
