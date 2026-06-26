@@ -18,12 +18,18 @@ function ownerPassword() {
   return process.env.STUDIO_OWNER_PASSWORD?.trim() || "";
 }
 
+function configuredSessionSecret() {
+  const secret = process.env.STUDIO_SESSION_SECRET?.trim() || "";
+  const insecurePlaceholders = new Set(["change-me", "replace-with-at-least-32-random-characters"]);
+  return secret.length >= 32 && !insecurePlaceholders.has(secret) ? secret : "";
+}
+
 function sessionSecret() {
-  return process.env.STUDIO_SESSION_SECRET?.trim() || process.env.DATABASE_URL || "endless-studio-dev-secret";
+  return configuredSessionSecret() || ownerPassword();
 }
 
 export function isStudioAuthEnabled() {
-  return Boolean(ownerPassword());
+  return Boolean(ownerPassword() && sessionSecret());
 }
 
 function sign(payload: string) {
@@ -58,10 +64,7 @@ function decode(token: string | undefined): StudioSessionPayload | null {
 
 export async function getStudioSession() {
   if (!isStudioAuthEnabled()) {
-    return {
-      email: ownerEmail(),
-      protected: false
-    };
+    return null;
   }
 
   const token = cookies().get(SESSION_COOKIE)?.value ?? bearerToken();
@@ -95,7 +98,7 @@ export async function assertStudioApiSession() {
 
 export function verifyStudioCredentials(email: string, password: string) {
   if (!isStudioAuthEnabled()) {
-    return true;
+    return false;
   }
 
   return email.trim() === ownerEmail() && password === ownerPassword();
